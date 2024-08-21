@@ -76,9 +76,8 @@ export const createProductAction = async (
   prevState: any,
   formData: FormData
 ): Promise<{ message: string }> => {
-  const user = await getAuthUser();
-
   try {
+    const user = await getAuthUser();
     const rawData = Object.fromEntries(formData);
     const file = formData.get("image") as File;
     const validatedFields = validateWithZodSchema(productSchema, rawData);
@@ -113,9 +112,9 @@ export const fetchAdminProducts = async () => {
 
 export const deleteProductAction = async (prevState: { productId: string }) => {
   const { productId } = prevState;
-  await getAdminUser();
 
   try {
+    await getAdminUser();
     const product = await db.product.delete({
       where: {
         id: productId,
@@ -144,8 +143,8 @@ export const updateProductAction = async (
   prevState: any,
   formData: FormData
 ) => {
-  await getAdminUser();
   try {
+    await getAdminUser();
     const productId = formData.get("id") as string;
     const rawData = Object.fromEntries(formData);
     const validatedFields = validateWithZodSchema(productSchema, rawData);
@@ -168,8 +167,8 @@ export const updateProductImageAction = async (
   prevState: any,
   formData: FormData
 ) => {
-  await getAuthUser();
   try {
+    await getAuthUser();
     const image = formData.get("image") as File;
     const productId = formData.get("id") as string;
     const oldImageUrl = formData.get("url") as string;
